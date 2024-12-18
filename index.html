@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin-right: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Traductor Inglés - Español</h1>
+
+    <textarea id="englishText" placeholder="Texto en inglés..."></textarea>
+    <textarea id="spanishText" placeholder="Texto en español..."></textarea>
+
+    <button id="translateToSpanish">Traducir a Español</button>
+    <button id="translateToEnglish">Traducir a Inglés</button>
+
+    <button id="speakEnglish">Hablar Inglés</button>
+    <button id="speakSpanish">Hablar Español</button>
+
+    <script>
+        // Datos de traducción
+        const dictionary =[
+  {
+    "a": "–",
+    "traducidoPalabra": null
+  },
+  {
+    "a": "13",
+    "traducidoPalabra": "13"
+  },
+  {
+    "a": "14",
+    "traducidoPalabra": "14"
+  },
+  {
+    "a": "4",
+    "traducidoPalabra": "4"
+  },
+  {
+    "a": "a",
+    "traducidoPalabra": "a"
+  },
+  {
+    "a": "access",
+    "traducidoPalabra": "acceso"
+  },
+  {
+    "a": "Access",
+    "traducidoPalabra": "Acceso"
+  },
+  {
+    "a": "adhere",
+    "traducidoPalabra": "adherirse"
+  },
+  {
+    "a": "after",
+    "traducidoPalabra": "después"
+  },
+  {
+    "a": "allow",
+    "traducidoPalabra": "permitir"
+  },
+  {
+    "a": "already",
+    "traducidoPalabra": "ya"
+  },
+  {
+    "a": "also",
+    "traducidoPalabra": "también"
+  },
+  {
+    "a": "an",
+    "traducidoPalabra": "un"
+  },
+  {
+    "a": "An",
+    "traducidoPalabra": "Un"
+  },
+  {
+    "a": "and",
+    "traducidoPalabra": "y"
+  },
+  {
+    "a": "another",
+    "traducidoPalabra": "otro"
+  },
+  {
+    "a": "any",
+    "traducidoPalabra": "cualquier"
+  },
+  {
+    "a": "API",
+    "traducidoPalabra": "API"
+  },
+  {
+    "a": "APIs",
+    "traducidoPalabra": "API"
+  },
+  {
+    "a": "app",
+    "traducidoPalabra": "aplicación"
+  },
+  {
+    "a": "application",
+    "traducidoPalabra": "solicitud"
+  },
+  {
+    "a": "applications",
+    "traducidoPalabra": "aplicaciones"
+  },
+  {
+    "a": "apps",
+    "traducidoPalabra": "aplicaciones"
+  },
+  {
+    "a": "architecture",
+    "traducidoPalabra": "arquitectura"
+  },
+  {
+    "a": "architectures",
+    "traducidoPalabra": "arquitecturas"
+  },
+  {
+    "a": "are",
+    "traducidoPalabra": "son"
+  },
+  {
+    "a": "around",
+    "traducidoPalabra": "alrededor"
+  },
+  {
+    "a": "as",
+    "traducidoPalabra": "como"
+  },
+  {
+    "a": "at",
+    "traducidoPalabra": "en"
+  },
+  {
+    "a": "based",
+    "traducidoPalabra": "basado"
+  },
+  {
+    "a": "become",
+    "traducidoPalabra": "convertirse"
+  },
+  {
+    "a": "book",
+    "traducidoPalabra": "libro"
+  },
+  {
+    "a": "boom",
+    "traducidoPalabra": "auge"
+  },
+  {
+    "a": "by",
+    "traducidoPalabra": "por"
+  },
+  {
+    "a": "called",
+    "traducidoPalabra": "llamado"
+  },
+  {
+    "a": "can",
+    "traducidoPalabra": "poder"
+  },
+  {
+    "a": "chapter",
+    "traducidoPalabra": "capítulo"
+  },
+  {
+    "a": "Chapter",
+    "traducidoPalabra": "Capítulo"
+  },
+  {
+    "a": "chapters",
+    "traducidoPalabra": "capítulos"
+  },
+  {
+    "a": "class",
+    "traducidoPalabra": "clase"
+  },
+  {
+    "a": "classes",
+    "traducidoPalabra": "clases"
+  },
+  {
+    "a": "cloud",
+    "traducidoPalabra": "nube"
+  },
+  {
+    "a": "code",
+    "traducidoPalabra": "código"
+  },
+  {
+    "a": "collection",
+    "traducidoPalabra": "recopilación"
+  },
+  {
+    "a": "communicate",
+    "traducidoPalabra": "comunicar"
+  },
+  {
+    "a": "communicates",
+    "traducidoPalabra": "comunica"
+  },
+  {
+    "a": "communication",
+    "traducidoPalabra": "comunicación"
+  },
+  {
+    "a": "consumption",
+    "traducidoPalabra": "consumo"
+  },
+  {
+    "a": "Currently",
+    "traducidoPalabra": "Actualmente"
+  },
+  {
+    "a": "detail",
+    "traducidoPalabra": "detalle"
+  },
+  {
+    "a": "develop",
+    "traducidoPalabra": "desarrollar"
+  },
+  {
+    "a": "Development",
+    "traducidoPalabra": "Desarrollo"
+  },
+  {
+    "a": "different",
+    "traducidoPalabra": "diferente"
+  },
+  {
+    "a": "discuss",
+    "traducidoPalabra": "conversar"
+  },
+  {
+    "a": "does",
+    "traducidoPalabra": "hace"
+  },
+  {
+    "a": "each",
+    "traducidoPalabra": "cada"
+  },
+  {
+    "a": "especially",
+    "traducidoPalabra": "especialmente"
+  },
+  {
+    "a": "even",
+    "traducidoPalabra": "incluso"
+  },
+  {
+    "a": "example",
+    "traducidoPalabra": "ejemplo"
+  },
+  {
+    "a": "expose",
+    "traducidoPalabra": "exponer"
+  },
+  {
+    "a": "exposed",
+    "traducidoPalabra": "expuesto"
+  },
+  {
+    "a": "Facebook",
+    "traducidoPalabra": "Facebook"
+  },
+  {
+    "a": "final",
+    "traducidoPalabra": "final"
+  },
+  {
+    "a": "following",
+    "traducidoPalabra": "siguiente"
+  },
+  {
+    "a": "for",
+    "traducidoPalabra": "para"
+  },
+  {
+    "a": "function",
+    "traducidoPalabra": "función"
+  },
+  {
+    "a": "fundamentals",
+    "traducidoPalabra": "Fundamentos"
+  },
+  {
+    "a": "Fundamentals",
+    "traducidoPalabra": "Fundamentos"
+  },
+  {
+    "a": "get",
+    "traducidoPalabra": "conseguir"
+  },
+  {
+    "a": "GitHub",
+    "traducidoPalabra": "GitHub"
+  },
+  {
+    "a": "Google",
+    "traducidoPalabra": "Google"
+  },
+  {
+    "a": "GraphQL",
+    "traducidoPalabra": "GraficoQL"
+  },
+  {
+    "a": "happens",
+    "traducidoPalabra": "sucede"
+  },
+  {
+    "a": "has",
+    "traducidoPalabra": "tiene"
+  },
+  {
+    "a": "have",
+    "traducidoPalabra": "tener"
+  },
+  {
+    "a": "help",
+    "traducidoPalabra": "ayuda"
+  },
+  {
+    "a": "Historically",
+    "traducidoPalabra": "Históricamente"
+  },
+  {
+    "a": "history",
+    "traducidoPalabra": "historia"
+  },
+  {
+    "a": "However",
+    "traducidoPalabra": "Sin embargo"
+  },
+  {
+    "a": "HTTP",
+    "traducidoPalabra": "HTTP"
+  },
+  {
+    "a": "in",
+    "traducidoPalabra": "en"
+  },
+  {
+    "a": "In",
+    "traducidoPalabra": "En"
+  },
+  {
+    "a": "independent",
+    "traducidoPalabra": "independiente"
+  },
+  {
+    "a": "individual",
+    "traducidoPalabra": "individual"
+  },
+  {
+    "a": "inputoutput",
+    "traducidoPalabra": "entrada-salida"
+  },
+  {
+    "a": "inside",
+    "traducidoPalabra": "adentro"
+  },
+  {
+    "a": "integral",
+    "traducidoPalabra": "integral"
+  },
+  {
+    "a": "integrate",
+    "traducidoPalabra": "integrar"
+  },
+  {
+    "a": "integration",
+    "traducidoPalabra": "integración"
+  },
+  {
+    "a": "internal",
+    "traducidoPalabra": "interno"
+  },
+  {
+    "a": "Introducing",
+    "traducidoPalabra": "Presentando"
+  },
+  {
+    "a": "is",
+    "traducidoPalabra": "es"
+  },
+  {
+    "a": "issues",
+    "traducidoPalabra": "asuntos"
+  },
+  {
+    "a": "it",
+    "traducidoPalabra": "él"
+  },
+  {
+    "a": "its",
+    "traducidoPalabra": "es"
+  },
+  {
+    "a": "Java",
+    "traducidoPalabra": "Java"
+  },
+  {
+    "a": "Java's",
+    "traducidoPalabra": "Javas"
+  },
+  {
+    "a": "knowledge",
+    "traducidoPalabra": "conocimiento"
+  },
+  {
+    "a": "libraries",
+    "traducidoPalabra": "bibliotecas"
+  },
+  {
+    "a": "like",
+    "traducidoPalabra": "como"
+  },
+  {
+    "a": "login",
+    "traducidoPalabra": "acceso"
+  },
+  {
+    "a": "logins",
+    "traducidoPalabra": "inicios de sesión"
+  },
+  {
+    "a": "look",
+    "traducidoPalabra": "mirar"
+  },
+  {
+    "a": "means",
+    "traducidoPalabra": "medio"
+  },
+  {
+    "a": "might",
+    "traducidoPalabra": "podría"
+  },
+  {
+    "a": "mobile",
+    "traducidoPalabra": "móvil"
+  },
+  {
+    "a": "modifiers",
+    "traducidoPalabra": "modificadores"
+  },
+  {
+    "a": "module",
+    "traducidoPalabra": "módulo"
+  },
+  {
+    "a": "more",
+    "traducidoPalabra": "más"
+  },
+  {
+    "a": "most",
+    "traducidoPalabra": "mayoría"
+  },
+  {
+    "a": "necessary",
+    "traducidoPalabra": "necesario"
+  },
+  {
+    "a": "not",
+    "traducidoPalabra": "no"
+  },
+  {
+    "a": "now",
+    "traducidoPalabra": "ahora"
+  },
+  {
+    "a": "Object",
+    "traducidoPalabra": "Objeto"
+  },
+  {
+    "a": "of",
+    "traducidoPalabra": "de"
+  },
+  {
+    "a": "one",
+    "traducidoPalabra": "uno"
+  },
+  {
+    "a": "only",
+    "traducidoPalabra": "solo"
+  },
+  {
+    "a": "or",
+    "traducidoPalabra": "o"
+  },
+  {
+    "a": "other",
+    "traducidoPalabra": "otro"
+  },
+  {
+    "a": "other?",
+    "traducidoPalabra": "¿otro?"
+  },
+  {
+    "a": "part",
+    "traducidoPalabra": "parte"
+  },
+  {
+    "a": "passwords",
+    "traducidoPalabra": "Contraseñas"
+  },
+  {
+    "a": "perform",
+    "traducidoPalabra": "llevar a cabo"
+  },
+  {
+    "a": "phones",
+    "traducidoPalabra": "teléfonos"
+  },
+  {
+    "a": "piece",
+    "traducidoPalabra": "pedazo"
+  },
+  {
+    "a": "program",
+    "traducidoPalabra": "programa"
+  },
+  {
+    "a": "programs",
+    "traducidoPalabra": "programas"
+  },
+  {
+    "a": "Protocol",
+    "traducidoPalabra": "Protocolo"
+  },
+  {
+    "a": "provide",
+    "traducidoPalabra": "proporcionar"
+  },
+  {
+    "a": "public",
+    "traducidoPalabra": "público"
+  },
+  {
+    "a": "quick",
+    "traducidoPalabra": "rápido"
+  },
+  {
+    "a": "REpresentational",
+    "traducidoPalabra": "Figurativo"
+  },
+  {
+    "a": "require",
+    "traducidoPalabra": "requerir"
+  },
+  {
+    "a": "requirements",
+    "traducidoPalabra": "Requisitos"
+  },
+  {
+    "a": "REST",
+    "traducidoPalabra": "DESCANSAR"
+  },
+  {
+    "a": "RESTful",
+    "traducidoPalabra": "Sosegado"
+  },
+  {
+    "a": "RPC",
+    "traducidoPalabra": "RPC"
+  },
+  {
+    "a": "SDK",
+    "traducidoPalabra": "Kit de desarrollo de software"
+  },
+  {
+    "a": "sections",
+    "traducidoPalabra": "Secciones"
+  },
+  {
+    "a": "secure",
+    "traducidoPalabra": "seguro"
+  },
+  {
+    "a": "security",
+    "traducidoPalabra": "seguridad"
+  },
+  {
+    "a": "service",
+    "traducidoPalabra": "servicio"
+  },
+  {
+    "a": "Service",
+    "traducidoPalabra": "Servicio"
+  },
+  {
+    "a": "services",
+    "traducidoPalabra": "servicios"
+  },
+  {
+    "a": "signature",
+    "traducidoPalabra": "firma"
+  },
+  {
+    "a": "Simple",
+    "traducidoPalabra": "Simple"
+  },
+  {
+    "a": "single",
+    "traducidoPalabra": "soltero"
+  },
+  {
+    "a": "so",
+    "traducidoPalabra": "entonces"
+  },
+  {
+    "a": "So",
+    "traducidoPalabra": "Entonces"
+  },
+  {
+    "a": "SOAP",
+    "traducidoPalabra": "JABÓN"
+  },
+  {
+    "a": "social",
+    "traducidoPalabra": "social"
+  },
+  {
+    "a": "software",
+    "traducidoPalabra": "software"
+  },
+  {
+    "a": "specific",
+    "traducidoPalabra": "específico"
+  },
+  {
+    "a": "standard",
+    "traducidoPalabra": "estándar"
+  },
+  {
+    "a": "stands",
+    "traducidoPalabra": "se encuentra"
+  },
+  {
+    "a": "State",
+    "traducidoPalabra": "Estado"
+  },
+  {
+    "a": "storing",
+    "traducidoPalabra": "almacenando"
+  },
+  {
+    "a": "streams",
+    "traducidoPalabra": "arroyos"
+  },
+  {
+    "a": "style",
+    "traducidoPalabra": "estilo"
+  },
+  {
+    "a": "such",
+    "traducidoPalabra": "semejante"
+  },
+  {
+    "a": "systemwide",
+    "traducidoPalabra": "en todo el sistema"
+  },
+  {
+    "a": "take",
+    "traducidoPalabra": "llevar"
+  },
+  {
+    "a": "tasks",
+    "traducidoPalabra": "tareas"
+  },
+  {
+    "a": "Technical",
+    "traducidoPalabra": "Técnico"
+  },
+  {
+    "a": "Testing",
+    "traducidoPalabra": "Pruebas"
+  },
+  {
+    "a": "that",
+    "traducidoPalabra": "eso"
+  },
+  {
+    "a": "That",
+    "traducidoPalabra": "Eso"
+  },
+  {
+    "a": "the",
+    "traducidoPalabra": "el"
+  },
+  {
+    "a": "The",
+    "traducidoPalabra": "El"
+  },
+  {
+    "a": "then",
+    "traducidoPalabra": "entonces"
+  },
+  {
+    "a": "there",
+    "traducidoPalabra": "allá"
+  },
+  {
+    "a": "these",
+    "traducidoPalabra": "estos"
+  },
+  {
+    "a": "These",
+    "traducidoPalabra": "Estos"
+  },
+  {
+    "a": "this",
+    "traducidoPalabra": "este"
+  },
+  {
+    "a": "This",
+    "traducidoPalabra": "Este"
+  },
+  {
+    "a": "to",
+    "traducidoPalabra": "a"
+  },
+  {
+    "a": "Transfer",
+    "traducidoPalabra": "Transferir"
+  },
+  {
+    "a": "two",
+    "traducidoPalabra": "dos"
+  },
+  {
+    "a": "understand",
+    "traducidoPalabra": "entender"
+  },
+  {
+    "a": "us",
+    "traducidoPalabra": "a nosotros"
+  },
+  {
+    "a": "use",
+    "traducidoPalabra": "usar"
+  },
+  {
+    "a": "used",
+    "traducidoPalabra": "usado"
+  },
+  {
+    "a": "using",
+    "traducidoPalabra": "usando"
+  },
+  {
+    "a": "variety",
+    "traducidoPalabra": "variedad"
+  },
+  {
+    "a": "want",
+    "traducidoPalabra": "desear"
+  },
+  {
+    "a": "way",
+    "traducidoPalabra": "forma"
+  },
+  {
+    "a": "ways",
+    "traducidoPalabra": "maneras"
+  },
+  {
+    "a": "we",
+    "traducidoPalabra": "nosotros"
+  },
+  {
+    "a": "We'll",
+    "traducidoPalabra": "Bien"
+  },
+  {
+    "a": "web",
+    "traducidoPalabra": "web"
+  },
+  {
+    "a": "Web",
+    "traducidoPalabra": "Web"
+  },
+  {
+    "a": "were",
+    "traducidoPalabra": "eran"
+  },
+  {
+    "a": "what",
+    "traducidoPalabra": "qué"
+  },
+  {
+    "a": "when",
+    "traducidoPalabra": "cuando"
+  },
+  {
+    "a": "where",
+    "traducidoPalabra": "dónde"
+  },
+  {
+    "a": "which",
+    "traducidoPalabra": "cual"
+  },
+  {
+    "a": "widely",
+    "traducidoPalabra": "ampliamente"
+  },
+  {
+    "a": "will",
+    "traducidoPalabra": "voluntad"
+  },
+  {
+    "a": "with",
+    "traducidoPalabra": "con"
+  },
+  {
+    "a": "without",
+    "traducidoPalabra": "sin"
+  },
+  {
+    "a": "words",
+    "traducidoPalabra": "palabras"
+  },
+  {
+    "a": "would",
+    "traducidoPalabra": "quería"
+  },
+  {
+    "a": "write",
+    "traducidoPalabra": "escribir"
+  },
+  {
+    "a": "writing",
+    "traducidoPalabra": "escribiendo"
+  },
+  {
+    "a": "written",
+    "traducidoPalabra": "escrito"
+  },
+  {
+    "a": "you",
+    "traducidoPalabra": "tú"
+  },
+  {
+    "a": "You",
+    "traducidoPalabra": "Tú"
+  },
+  {
+    "a": "your",
+    "traducidoPalabra": "su"
+  },
+  {
+    "a": "•",
+    "traducidoPalabra": null
+  },
+  {
+    "a": "1",
+    "traducidoPalabra": "1"
+  },
+  {
+    "a": "about",
+    "traducidoPalabra": "acerca de"
+  },
+  {
+    "a": "Application",
+    "traducidoPalabra": "Solicitud"
+  },
+  {
+    "a": "As",
+    "traducidoPalabra": "Como"
+  },
+  {
+    "a": "aspects",
+    "traducidoPalabra": "aspectos"
+  },
+  {
+    "a": "basics",
+    "traducidoPalabra": "lo esencial"
+  },
+  {
+    "a": "be",
+    "traducidoPalabra": "ser"
+  },
+  {
+    "a": "before",
+    "traducidoPalabra": "antes"
+  },
+  {
+    "a": "best",
+    "traducidoPalabra": "mejor"
+  },
+  {
+    "a": "Best",
+    "traducidoPalabra": "Mejor"
+  },
+  {
+    "a": "brief",
+    "traducidoPalabra": "breve"
+  },
+  {
+    "a": "codes",
+    "traducidoPalabra": "códigos"
+  },
+  {
+    "a": "cover",
+    "traducidoPalabra": "cubrir"
+  },
+  {
+    "a": "design",
+    "traducidoPalabra": "diseño"
+  },
+  {
+    "a": "designing",
+    "traducidoPalabra": "diseño"
+  },
+  {
+    "a": "development",
+    "traducidoPalabra": "desarrollo"
+  },
+  {
+    "a": "ecommerce",
+    "traducidoPalabra": "comercio electrónico"
+  },
+  {
+    "a": "Engine",
+    "traducidoPalabra": "Motor"
+  },
+  {
+    "a": "explore",
+    "traducidoPalabra": "explorar"
+  },
+  {
+    "a": "Exploring",
+    "traducidoPalabra": "Explorador"
+  },
+  {
+    "a": "formed",
+    "traducidoPalabra": "formado"
+  },
+  {
+    "a": "go",
+    "traducidoPalabra": "ir"
+  },
+  {
+    "a": "Handling",
+    "traducidoPalabra": "Manejo"
+  },
+  {
+    "a": "HATEOAS",
+    "traducidoPalabra": "Odio"
+  },
+  {
+    "a": "how",
+    "traducidoPalabra": "cómo"
+  },
+  {
+    "a": "Hypermedia",
+    "traducidoPalabra": "Hipermedia"
+  },
+  {
+    "a": "Hypertext",
+    "traducidoPalabra": "Hipertexto"
+  },
+  {
+    "a": "Identifiers",
+    "traducidoPalabra": "Identificadores"
+  },
+  {
+    "a": "Interfaces",
+    "traducidoPalabra": "Interfaces"
+  },
+  {
+    "a": "introduce",
+    "traducidoPalabra": "introducir"
+  },
+  {
+    "a": "learn",
+    "traducidoPalabra": "aprender"
+  },
+  {
+    "a": "Learning",
+    "traducidoPalabra": "Aprendiendo"
+  },
+  {
+    "a": "methods",
+    "traducidoPalabra": "métodos"
+  },
+  {
+    "a": "move",
+    "traducidoPalabra": "mover"
+  },
+  {
+    "a": "Of",
+    "traducidoPalabra": "De"
+  },
+  {
+    "a": "on",
+    "traducidoPalabra": "en"
+  },
+  {
+    "a": "our",
+    "traducidoPalabra": "nuestro"
+  },
+  {
+    "a": "Overview",
+    "traducidoPalabra": "Descripción general"
+  },
+  {
+    "a": "paradigms",
+    "traducidoPalabra": "Paradigmas"
+  },
+  {
+    "a": "platform",
+    "traducidoPalabra": "plataforma"
+  },
+  {
+    "a": "practices",
+    "traducidoPalabra": "prácticas"
+  },
+  {
+    "a": "Programming",
+    "traducidoPalabra": "Programación"
+  },
+  {
+    "a": "Resource",
+    "traducidoPalabra": "Recurso"
+  },
+  {
+    "a": "resources",
+    "traducidoPalabra": "recursos"
+  },
+  {
+    "a": "sample",
+    "traducidoPalabra": "muestra"
+  },
+  {
+    "a": "short",
+    "traducidoPalabra": "corto"
+  },
+  {
+    "a": "should",
+    "traducidoPalabra": "debería"
+  },
+  {
+    "a": "solid",
+    "traducidoPalabra": "sólido"
+  },
+  {
+    "a": "status",
+    "traducidoPalabra": "estado"
+  },
+  {
+    "a": "their",
+    "traducidoPalabra": "su"
+  },
+  {
+    "a": "through",
+    "traducidoPalabra": "a través de"
+  },
+  {
+    "a": "throughout",
+    "traducidoPalabra": "a lo largo de"
+  },
+  {
+    "a": "topics",
+    "traducidoPalabra": "temas"
+  },
+  {
+    "a": "Uniform",
+    "traducidoPalabra": "Uniforme"
+  },
+  {
+    "a": "URIs",
+    "traducidoPalabra": "URI"
+  },
+  {
+    "a": "We",
+    "traducidoPalabra": "Nosotros"
+  },
+  {
+    "a": "10",
+    "traducidoPalabra": "10"
+  },
+  {
+    "a": "11",
+    "traducidoPalabra": "11"
+  },
+  {
+    "a": "12",
+    "traducidoPalabra": "12"
+  },
+  {
+    "a": "7",
+    "traducidoPalabra": "7"
+  },
+  {
+    "a": "8",
+    "traducidoPalabra": "8"
+  },
+  {
+    "a": "9",
+    "traducidoPalabra": "9"
+  },
+  {
+    "a": "A",
+    "traducidoPalabra": "A"
+  },
+  {
+    "a": "able",
+    "traducidoPalabra": "capaz"
+  },
+  {
+    "a": "After",
+    "traducidoPalabra": "Después"
+  },
+  {
+    "a": "along",
+    "traducidoPalabra": "a lo largo de"
+  },
+  {
+    "a": "analyze",
+    "traducidoPalabra": "analizar"
+  },
+  {
+    "a": "approach",
+    "traducidoPalabra": "acercarse"
+  },
+  {
+    "a": "automated",
+    "traducidoPalabra": "automatizado"
+  },
+  {
+    "a": "automation",
+    "traducidoPalabra": "automatización"
+  },
+  {
+    "a": "between",
+    "traducidoPalabra": "entre"
+  },
+  {
+    "a": "both",
+    "traducidoPalabra": "ambos"
+  },
+  {
+    "a": "browser's",
+    "traducidoPalabra": "del navegador"
+  },
+  {
+    "a": "build",
+    "traducidoPalabra": "construir"
+  },
+  {
+    "a": "By",
+    "traducidoPalabra": "Por"
+  },
+  {
+    "a": "calculate",
+    "traducidoPalabra": "calcular"
+  },
+  {
+    "a": "calls",
+    "traducidoPalabra": "llamadas"
+  },
+  {
+    "a": "Cart",
+    "traducidoPalabra": "Carro"
+  },
+  {
+    "a": "client",
+    "traducidoPalabra": "cliente"
+  },
+  {
+    "a": "cluster",
+    "traducidoPalabra": "grupo"
+  },
+  {
+    "a": "component",
+    "traducidoPalabra": "componente"
+  },
+  {
+    "a": "components",
+    "traducidoPalabra": "componentes"
+  },
+  {
+    "a": "concept",
+    "traducidoPalabra": "concepto"
+  },
+  {
+    "a": "concludes",
+    "traducidoPalabra": "concluye"
+  },
+  {
+    "a": "consists",
+    "traducidoPalabra": "consiste"
+  },
+  {
+    "a": "consuming",
+    "traducidoPalabra": "consumidor"
+  },
+  {
+    "a": "container",
+    "traducidoPalabra": "recipiente"
+  },
+  {
+    "a": "containerization",
+    "traducidoPalabra": "contenerización"
+  },
+  {
+    "a": "containerize",
+    "traducidoPalabra": "contenerizar"
+  },
+  {
+    "a": "course",
+    "traducidoPalabra": "curso"
+  },
+  {
+    "a": "coverage",
+    "traducidoPalabra": "cobertura"
+  },
+  {
+    "a": "definition",
+    "traducidoPalabra": "definición"
+  },
+  {
+    "a": "deployed",
+    "traducidoPalabra": "desplegado"
+  },
+  {
+    "a": "Deployment",
+    "traducidoPalabra": "Despliegue"
+  },
+  {
+    "a": "designfirst",
+    "traducidoPalabra": "diseño primero"
+  },
+  {
+    "a": "Designing",
+    "traducidoPalabra": "Diseño"
+  },
+  {
+    "a": "Detail",
+    "traducidoPalabra": "Detalle"
+  },
+  {
+    "a": "developed",
+    "traducidoPalabra": "desarrollado"
+  },
+  {
+    "a": "distributed",
+    "traducidoPalabra": "repartido"
+  },
+  {
+    "a": "Docker",
+    "traducidoPalabra": "Estibador"
+  },
+  {
+    "a": "During",
+    "traducidoPalabra": "Durante"
+  },
+  {
+    "a": "easier",
+    "traducidoPalabra": "más fácil"
+  },
+  {
+    "a": "Elastic",
+    "traducidoPalabra": "Elástico"
+  },
+  {
+    "a": "ELK",
+    "traducidoPalabra": "ALCE"
+  },
+  {
+    "a": "end",
+    "traducidoPalabra": "fin"
+  },
+  {
+    "a": "endtoend",
+    "traducidoPalabra": "final"
+  },
+  {
+    "a": "explains",
+    "traducidoPalabra": "explica"
+  },
+  {
+    "a": "explores",
+    "traducidoPalabra": "explora"
+  },
+  {
+    "a": "Fetch",
+    "traducidoPalabra": "Buscar"
+  },
+  {
+    "a": "going",
+    "traducidoPalabra": "yendo"
+  },
+  {
+    "a": "GraphQLbased",
+    "traducidoPalabra": "Basado en GraphQL"
+  },
+  {
+    "a": "gRPC",
+    "traducidoPalabra": "gRPC"
+  },
+  {
+    "a": "gRPCbased",
+    "traducidoPalabra": "Basado en gRPC"
+  },
+  {
+    "a": "Here",
+    "traducidoPalabra": "Aquí"
+  },
+  {
+    "a": "implement",
+    "traducidoPalabra": "implementar"
+  },
+  {
+    "a": "implementation",
+    "traducidoPalabra": "implementación"
+  },
+  {
+    "a": "implements",
+    "traducidoPalabra": "implementos"
+  },
+  {
+    "a": "inbuilt",
+    "traducidoPalabra": "incorporado"
+  },
+  {
+    "a": "information",
+    "traducidoPalabra": "información"
+  },
+  {
+    "a": "inject",
+    "traducidoPalabra": "inyectar"
+  },
+  {
+    "a": "interactive",
+    "traducidoPalabra": "interactivo"
+  },
+  {
+    "a": "Interface",
+    "traducidoPalabra": "Interfaz"
+  },
+  {
+    "a": "into",
+    "traducidoPalabra": "en"
+  },
+  {
+    "a": "introduced",
+    "traducidoPalabra": "introducido"
+  },
+  {
+    "a": "introduces",
+    "traducidoPalabra": "introduce"
+  },
+  {
+    "a": "Kibana",
+    "traducidoPalabra": "Kibana"
+  },
+  {
+    "a": "Kubernetes",
+    "traducidoPalabra": "Kubernetes"
+  },
+  {
+    "a": "Kubernetesbased",
+    "traducidoPalabra": "Basado en Kubernetes"
+  },
+  {
+    "a": "language",
+    "traducidoPalabra": "idioma"
+  },
+  {
+    "a": "latter",
+    "traducidoPalabra": "último"
+  },
+  {
+    "a": "layers",
+    "traducidoPalabra": "capas"
+  },
+  {
+    "a": "learned",
+    "traducidoPalabra": "aprendió"
+  },
+  {
+    "a": "learning",
+    "traducidoPalabra": "aprendiendo"
+  },
+  {
+    "a": "Listing",
+    "traducidoPalabra": "Listado"
+  },
+  {
+    "a": "logging",
+    "traducidoPalabra": "explotación florestal"
+  },
+  {
+    "a": "Logging",
+    "traducidoPalabra": "Explotación florestal"
+  },
+  {
+    "a": "Login",
+    "traducidoPalabra": "Acceso"
+  },
+  {
+    "a": "logs",
+    "traducidoPalabra": "registros"
+  },
+  {
+    "a": "Logstash",
+    "traducidoPalabra": "Logstash"
+  },
+  {
+    "a": "make",
+    "traducidoPalabra": "hacer"
+  },
+  {
+    "a": "makes",
+    "traducidoPalabra": "marcas"
+  },
+  {
+    "a": "manual",
+    "traducidoPalabra": "manual"
+  },
+  {
+    "a": "metrics",
+    "traducidoPalabra": "métrica"
+  },
+  {
+    "a": "microservices",
+    "traducidoPalabra": "microservicios"
+  },
+  {
+    "a": "Minikube",
+    "traducidoPalabra": "minikube"
+  },
+  {
+    "a": "modern",
+    "traducidoPalabra": "moderno"
+  },
+  {
+    "a": "monitoring",
+    "traducidoPalabra": "escucha"
+  },
+  {
+    "a": "mutations",
+    "traducidoPalabra": "mutaciones"
+  },
+  {
+    "a": "N+1",
+    "traducidoPalabra": "N+1"
+  },
+  {
+    "a": "next",
+    "traducidoPalabra": "próximo"
+  },
+  {
+    "a": "online",
+    "traducidoPalabra": "en línea"
+  },
+  {
+    "a": "Order",
+    "traducidoPalabra": "Orden"
+  },
+  {
+    "a": "performance",
+    "traducidoPalabra": "actuación"
+  },
+  {
+    "a": "Preface",
+    "traducidoPalabra": "Prefacio"
+  },
+  {
+    "a": "problem",
+    "traducidoPalabra": "problema"
+  },
+  {
+    "a": "Product",
+    "traducidoPalabra": "Producto"
+  },
+  {
+    "a": "publish",
+    "traducidoPalabra": "publicar"
+  },
+  {
+    "a": "queries",
+    "traducidoPalabra": "consultas"
+  },
+  {
+    "a": "React",
+    "traducidoPalabra": "Reaccionar"
+  },
+  {
+    "a": "related",
+    "traducidoPalabra": "relacionado"
+  },
+  {
+    "a": "requestresponse",
+    "traducidoPalabra": "solicitudrespuesta"
+  },
+  {
+    "a": "requests",
+    "traducidoPalabra": "solicitudes"
+  },
+  {
+    "a": "responses",
+    "traducidoPalabra": "respuestas"
+  },
+  {
+    "a": "scalable",
+    "traducidoPalabra": "escalable"
+  },
+  {
+    "a": "schema",
+    "traducidoPalabra": "esquema"
+  },
+  {
+    "a": "SDL",
+    "traducidoPalabra": "SDL"
+  },
+  {
+    "a": "Search",
+    "traducidoPalabra": "Buscar"
+  },
+  {
+    "a": "server",
+    "traducidoPalabra": "servidor"
+  },
+  {
+    "a": "Services",
+    "traducidoPalabra": "Servicios"
+  },
+  {
+    "a": "set",
+    "traducidoPalabra": "colocar"
+  },
+  {
+    "a": "shopping",
+    "traducidoPalabra": "compras"
+  },
+  {
+    "a": "SinglePage",
+    "traducidoPalabra": "Página única"
+  },
+  {
+    "a": "Sleuth",
+    "traducidoPalabra": "Detective"
+  },
+  {
+    "a": "solving",
+    "traducidoPalabra": "resolviendo"
+  },
+  {
+    "a": "SPA",
+    "traducidoPalabra": "SPA"
+  },
+  {
+    "a": "Spring",
+    "traducidoPalabra": "Primavera"
+  },
+  {
+    "a": "Stack",
+    "traducidoPalabra": "Pila"
+  },
+  {
+    "a": "subscriptions",
+    "traducidoPalabra": "suscripciones"
+  },
+  {
+    "a": "talks",
+    "traducidoPalabra": "negociaciones"
+  },
+  {
+    "a": "test",
+    "traducidoPalabra": "prueba"
+  },
+  {
+    "a": "testing",
+    "traducidoPalabra": "pruebas"
+  },
+  {
+    "a": "they",
+    "traducidoPalabra": "ellos"
+  },
+  {
+    "a": "tool",
+    "traducidoPalabra": "herramienta"
+  },
+  {
+    "a": "tools",
+    "traducidoPalabra": "herramientas"
+  },
+  {
+    "a": "tracing",
+    "traducidoPalabra": "rastreo"
+  },
+  {
+    "a": "Tracing",
+    "traducidoPalabra": "Rastreo"
+  },
+  {
+    "a": "types",
+    "traducidoPalabra": "tipos"
+  },
+  {
+    "a": "UI",
+    "traducidoPalabra": "Interfaz de usuario"
+  },
+  {
+    "a": "unit",
+    "traducidoPalabra": "unidad"
+  },
+  {
+    "a": "up",
+    "traducidoPalabra": "arriba"
+  },
+  {
+    "a": "User",
+    "traducidoPalabra": "Usuario"
+  },
+  {
+    "a": "xi",
+    "traducidoPalabra": "x"
+  },
+  {
+    "a": "Zipkin",
+    "traducidoPalabra": "Cremallera"
+  },
+  {
+    "a": "2",
+    "traducidoPalabra": "2"
+  },
+  {
+    "a": "3",
+    "traducidoPalabra": "3"
+  },
+  {
+    "a": "5",
+    "traducidoPalabra": "5"
+  },
+  {
+    "a": "6",
+    "traducidoPalabra": "6"
+  },
+  {
+    "a": "accessed",
+    "traducidoPalabra": "accedido"
+  },
+  {
+    "a": "accessing",
+    "traducidoPalabra": "Accediendo"
+  },
+  {
+    "a": "across",
+    "traducidoPalabra": "al otro lado de"
+  },
+  {
+    "a": "add",
+    "traducidoPalabra": "agregar"
+  },
+  {
+    "a": "Admin",
+    "traducidoPalabra": "Administración"
+  },
+  {
+    "a": "API's",
+    "traducidoPalabra": "API"
+  },
+  {
+    "a": "associate",
+    "traducidoPalabra": "asociado"
+  },
+  {
+    "a": "asynchronous",
+    "traducidoPalabra": "asincrónico"
+  },
+  {
+    "a": "Asynchronous",
+    "traducidoPalabra": "Asincrónico"
+  },
+  {
+    "a": "authentication",
+    "traducidoPalabra": "autenticación"
+  },
+  {
+    "a": "Authentication",
+    "traducidoPalabra": "Autenticación"
+  },
+  {
+    "a": "authorization",
+    "traducidoPalabra": "autorización"
+  },
+  {
+    "a": "Authorization",
+    "traducidoPalabra": "Autorización"
+  },
+  {
+    "a": "briefly",
+    "traducidoPalabra": "brevemente"
+  },
+  {
+    "a": "business",
+    "traducidoPalabra": "negocio"
+  },
+  {
+    "a": "Business",
+    "traducidoPalabra": "Negocio"
+  },
+  {
+    "a": "certain",
+    "traducidoPalabra": "cierto"
+  },
+  {
+    "a": "chapter's",
+    "traducidoPalabra": "capítulos"
+  },
+  {
+    "a": "chosen",
+    "traducidoPalabra": "preferido"
+  },
+  {
+    "a": "comparing",
+    "traducidoPalabra": "comparando"
+  },
+  {
+    "a": "Concepts",
+    "traducidoPalabra": "Conceptos"
+  },
+  {
+    "a": "correlating",
+    "traducidoPalabra": "correlacionando"
+  },
+  {
+    "a": "CORS",
+    "traducidoPalabra": "CORS"
+  },
+  {
+    "a": "covers",
+    "traducidoPalabra": "cubiertas"
+  },
+  {
+    "a": "CrossOrigin",
+    "traducidoPalabra": "CruzOrigen"
+  },
+  {
+    "a": "CrossSite",
+    "traducidoPalabra": "Sitio cruzado"
+  },
+  {
+    "a": "CSRF",
+    "traducidoPalabra": "CSRF"
+  },
+  {
+    "a": "data",
+    "traducidoPalabra": "datos"
+  },
+  {
+    "a": "Design",
+    "traducidoPalabra": "Diseño"
+  },
+  {
+    "a": "designed",
+    "traducidoPalabra": "diseñado"
+  },
+  {
+    "a": "developing",
+    "traducidoPalabra": "desarrollo"
+  },
+  {
+    "a": "drives",
+    "traducidoPalabra": "Conduce"
+  },
+  {
+    "a": "during",
+    "traducidoPalabra": "durante"
+  },
+  {
+    "a": "endpoints",
+    "traducidoPalabra": "puntos finales"
+  },
+  {
+    "a": "errors",
+    "traducidoPalabra": "errores"
+  },
+  {
+    "a": "ETag",
+    "traducidoPalabra": "etiqueta ET"
+  },
+  {
+    "a": "existing",
+    "traducidoPalabra": "existente"
+  },
+  {
+    "a": "expired",
+    "traducidoPalabra": "venció"
+  },
+  {
+    "a": "features",
+    "traducidoPalabra": "características"
+  },
+  {
+    "a": "first",
+    "traducidoPalabra": "primero"
+  },
+  {
+    "a": "First",
+    "traducidoPalabra": "Primero"
+  },
+  {
+    "a": "Forgery",
+    "traducidoPalabra": "Falsificación"
+  },
+  {
+    "a": "Framework",
+    "traducidoPalabra": "Estructura"
+  },
+  {
+    "a": "handle",
+    "traducidoPalabra": "manejar"
+  },
+  {
+    "a": "headers",
+    "traducidoPalabra": "encabezados"
+  },
+  {
+    "a": "helps",
+    "traducidoPalabra": "ayuda"
+  },
+  {
+    "a": "holds",
+    "traducidoPalabra": "sostiene"
+  },
+  {
+    "a": "httpsprojectreactorio",
+    "traducidoPalabra": "httpsproyectoreactorio"
+  },
+  {
+    "a": "hypermedia",
+    "traducidoPalabra": "hipermedia"
+  },
+  {
+    "a": "if",
+    "traducidoPalabra": "si"
+  },
+  {
+    "a": "imperative",
+    "traducidoPalabra": "imperativo"
+  },
+  {
+    "a": "Implementation",
+    "traducidoPalabra": "Implementación"
+  },
+  {
+    "a": "implemented",
+    "traducidoPalabra": "implementado"
+  },
+  {
+    "a": "itself",
+    "traducidoPalabra": "sí mismo"
+  },
+  {
+    "a": "JSON",
+    "traducidoPalabra": "JSON"
+  },
+  {
+    "a": "JWT",
+    "traducidoPalabra": "JWT"
+  },
+  {
+    "a": "JWTbased",
+    "traducidoPalabra": "Basado en JWT"
+  },
+  {
+    "a": "later",
+    "traducidoPalabra": "más tarde"
+  },
+  {
+    "a": "logic",
+    "traducidoPalabra": "lógica"
+  },
+  {
+    "a": "Logic",
+    "traducidoPalabra": "Lógica"
+  },
+  {
+    "a": "migrate",
+    "traducidoPalabra": "emigrar"
+  },
+  {
+    "a": "new",
+    "traducidoPalabra": "nuevo"
+  },
+  {
+    "a": "nonblocking",
+    "traducidoPalabra": "sin bloqueo"
+  },
+  {
+    "a": "occurred",
+    "traducidoPalabra": "ocurrió"
+  },
+  {
+    "a": "OpenAPI",
+    "traducidoPalabra": "API abierta"
+  },
+  {
+    "a": "paradigm",
+    "traducidoPalabra": "paradigma"
+  },
+  {
+    "a": "persistence",
+    "traducidoPalabra": "persistencia"
+  },
+  {
+    "a": "perspective",
+    "traducidoPalabra": "perspectiva"
+  },
+  {
+    "a": "previous",
+    "traducidoPalabra": "anterior"
+  },
+  {
+    "a": "programming",
+    "traducidoPalabra": "programación"
+  },
+  {
+    "a": "Project",
+    "traducidoPalabra": "Proyecto"
+  },
+  {
+    "a": "reactive",
+    "traducidoPalabra": "reactivo"
+  },
+  {
+    "a": "Reactor",
+    "traducidoPalabra": "Reactor"
+  },
+  {
+    "a": "reference",
+    "traducidoPalabra": "referencia"
+  },
+  {
+    "a": "refresh",
+    "traducidoPalabra": "refrescar"
+  },
+  {
+    "a": "repositories",
+    "traducidoPalabra": "repositorios"
+  },
+  {
+    "a": "request",
+    "traducidoPalabra": "pedido"
+  },
+  {
+    "a": "Request",
+    "traducidoPalabra": "Pedido"
+  },
+  {
+    "a": "requesting",
+    "traducidoPalabra": "solicitando"
+  },
+  {
+    "a": "required",
+    "traducidoPalabra": "requerido"
+  },
+  {
+    "a": "response",
+    "traducidoPalabra": "respuesta"
+  },
+  {
+    "a": "role",
+    "traducidoPalabra": "role"
+  },
+  {
+    "a": "roles",
+    "traducidoPalabra": "roles"
+  },
+  {
+    "a": "secured",
+    "traducidoPalabra": "asegurado"
+  },
+  {
+    "a": "Security",
+    "traducidoPalabra": "Seguridad"
+  },
+  {
+    "a": "serving",
+    "traducidoPalabra": "servicio"
+  },
+  {
+    "a": "Sharing",
+    "traducidoPalabra": "Intercambio"
+  },
+  {
+    "a": "specification",
+    "traducidoPalabra": "especificación"
+  },
+  {
+    "a": "Specifications",
+    "traducidoPalabra": "Presupuesto"
+  },
+  {
+    "a": "Successful",
+    "traducidoPalabra": "Exitoso"
+  },
+  {
+    "a": "sure",
+    "traducidoPalabra": "seguro"
+  },
+  {
+    "a": "technical",
+    "traducidoPalabra": "técnico"
+  },
+  {
+    "a": "technologies",
+    "traducidoPalabra": "Tecnologías"
+  },
+  {
+    "a": "terms",
+    "traducidoPalabra": "términos"
+  },
+  {
+    "a": "them",
+    "traducidoPalabra": "a ellos"
+  },
+  {
+    "a": "things",
+    "traducidoPalabra": "cosas"
+  },
+  {
+    "a": "token",
+    "traducidoPalabra": "simbólico"
+  },
+  {
+    "a": "Token",
+    "traducidoPalabra": "Simbólico"
+  },
+  {
+    "a": "tokenbased",
+    "traducidoPalabra": "Basado en tokens"
+  },
+  {
+    "a": "tokens",
+    "traducidoPalabra": "fichas"
+  },
+  {
+    "a": "URLs",
+    "traducidoPalabra": "URL"
+  },
+  {
+    "a": "user",
+    "traducidoPalabra": "usuario"
+  },
+  {
+    "a": "users",
+    "traducidoPalabra": "usuarios"
+  },
+  {
+    "a": "valid",
+    "traducidoPalabra": "válido"
+  },
+  {
+    "a": "walk",
+    "traducidoPalabra": "caminar"
+  },
+  {
+    "a": "we'll",
+    "traducidoPalabra": "Bueno"
+  },
+  {
+    "a": "WebFlux",
+    "traducidoPalabra": "Flujo web"
+  },
+  {
+    "a": "What",
+    "traducidoPalabra": "Qué"
+  },
+  {
+    "a": "while",
+    "traducidoPalabra": "mientras"
+  },
+  {
+    "a": "Writing",
+    "traducidoPalabra": "Escribiendo"
+  },
+  {
+    "a": "x",
+    "traducidoPalabra": "incógnita"
+  },
+  {
+    "a": "You'll",
+    "traducidoPalabra": "Tú lo harás"
+  },
+  {
+    "a": "adapt",
+    "traducidoPalabra": "adaptar"
+  },
+  {
+    "a": "algorithms",
+    "traducidoPalabra": "algoritmos"
+  },
+  {
+    "a": "Apps",
+    "traducidoPalabra": "Aplicaciones"
+  },
+  {
+    "a": "async",
+    "traducidoPalabra": "asíncrono"
+  },
+  {
+    "a": "basic",
+    "traducidoPalabra": "básico"
+  },
+  {
+    "a": "been",
+    "traducidoPalabra": "estado"
+  },
+  {
+    "a": "boot",
+    "traducidoPalabra": "bota"
+  },
+  {
+    "a": "but",
+    "traducidoPalabra": "pero"
+  },
+  {
+    "a": "camp",
+    "traducidoPalabra": "acampar"
+  },
+  {
+    "a": "career",
+    "traducidoPalabra": "carrera"
+  },
+  {
+    "a": "coding",
+    "traducidoPalabra": "codificación"
+  },
+  {
+    "a": "comp",
+    "traducidoPalabra": "Comp"
+  },
+  {
+    "a": "company",
+    "traducidoPalabra": "compañía"
+  },
+  {
+    "a": "concluding",
+    "traducidoPalabra": "concluyendo"
+  },
+  {
+    "a": "constructs",
+    "traducidoPalabra": "construcciones"
+  },
+  {
+    "a": "consumed",
+    "traducidoPalabra": "consumado"
+  },
+  {
+    "a": "continue",
+    "traducidoPalabra": "continuar"
+  },
+  {
+    "a": "creating",
+    "traducidoPalabra": "creando"
+  },
+  {
+    "a": "customers",
+    "traducidoPalabra": "clientes"
+  },
+  {
+    "a": "deploy",
+    "traducidoPalabra": "desplegar"
+  },
+  {
+    "a": "deploying",
+    "traducidoPalabra": "Desplegando"
+  },
+  {
+    "a": "developer",
+    "traducidoPalabra": "revelador"
+  },
+  {
+    "a": "developerfriendly",
+    "traducidoPalabra": "amigable para desarrolladores"
+  },
+  {
+    "a": "developers",
+    "traducidoPalabra": "desarrolladores"
+  },
+  {
+    "a": "discover",
+    "traducidoPalabra": "descubrir"
+  },
+  {
+    "a": "easy",
+    "traducidoPalabra": "fácil"
+  },
+  {
+    "a": "enable",
+    "traducidoPalabra": "permitir"
+  },
+  {
+    "a": "enterprise",
+    "traducidoPalabra": "empresa"
+  },
+  {
+    "a": "environment",
+    "traducidoPalabra": "ambiente"
+  },
+  {
+    "a": "equip",
+    "traducidoPalabra": "equipar"
+  },
+  {
+    "a": "eshopping",
+    "traducidoPalabra": "compras en línea"
+  },
+  {
+    "a": "ETags",
+    "traducidoPalabra": "Etiquetas electrónicas"
+  },
+  {
+    "a": "evolving",
+    "traducidoPalabra": "evolucionando"
+  },
+  {
+    "a": "exploring",
+    "traducidoPalabra": "explorador"
+  },
+  {
+    "a": "find",
+    "traducidoPalabra": "encontrar"
+  },
+  {
+    "a": "focus",
+    "traducidoPalabra": "enfocar"
+  },
+  {
+    "a": "good",
+    "traducidoPalabra": "bien"
+  },
+  {
+    "a": "graduates",
+    "traducidoPalabra": "Graduados"
+  },
+  {
+    "a": "helpful",
+    "traducidoPalabra": "útil"
+  },
+  {
+    "a": "highly",
+    "traducidoPalabra": "muy"
+  },
+  {
+    "a": "implementations",
+    "traducidoPalabra": "Implementaciones"
+  },
+  {
+    "a": "inexperienced",
+    "traducidoPalabra": "inexperto"
+  },
+  {
+    "a": "joined",
+    "traducidoPalabra": "unido"
+  },
+  {
+    "a": "kinds",
+    "traducidoPalabra": "tipos"
+  },
+  {
+    "a": "know",
+    "traducidoPalabra": "saber"
+  },
+  {
+    "a": "lack",
+    "traducidoPalabra": "falta"
+  },
+  {
+    "a": "looking",
+    "traducidoPalabra": "mirando"
+  },
+  {
+    "a": "maintainable",
+    "traducidoPalabra": "mantenible"
+  },
+  {
+    "a": "need",
+    "traducidoPalabra": "necesidad"
+  },
+  {
+    "a": "needs",
+    "traducidoPalabra": "necesidades"
+  },
+  {
+    "a": "Next",
+    "traducidoPalabra": "Próximo"
+  },
+  {
+    "a": "over",
+    "traducidoPalabra": "encima"
+  },
+  {
+    "a": "philosophy",
+    "traducidoPalabra": "filosofía"
+  },
+  {
+    "a": "practical",
+    "traducidoPalabra": "práctico"
+  },
+  {
+    "a": "principles",
+    "traducidoPalabra": "principios"
+  },
+  {
+    "a": "productionready",
+    "traducidoPalabra": "Listo para producción"
+  },
+  {
+    "a": "Professionals",
+    "traducidoPalabra": "Profesionales"
+  },
+  {
+    "a": "programmers",
+    "traducidoPalabra": "programadores"
+  },
+  {
+    "a": "realworld",
+    "traducidoPalabra": "mundo real"
+  },
+  {
+    "a": "recently",
+    "traducidoPalabra": "recientemente"
+  },
+  {
+    "a": "resource",
+    "traducidoPalabra": "recurso"
+  },
+  {
+    "a": "RESTbased",
+    "traducidoPalabra": "Basado en REST"
+  },
+  {
+    "a": "running",
+    "traducidoPalabra": "correr"
+  },
+  {
+    "a": "science",
+    "traducidoPalabra": "ciencia"
+  },
+  {
+    "a": "serve",
+    "traducidoPalabra": "atender"
+  },
+  {
+    "a": "skills",
+    "traducidoPalabra": "habilidades"
+  },
+  {
+    "a": "start",
+    "traducidoPalabra": "comenzar"
+  },
+  {
+    "a": "started",
+    "traducidoPalabra": "comenzó"
+  },
+  {
+    "a": "startup",
+    "traducidoPalabra": "puesta en marcha"
+  },
+  {
+    "a": "structures",
+    "traducidoPalabra": "estructuras"
+  },
+  {
+    "a": "supported",
+    "traducidoPalabra": "apoyado"
+  },
+  {
+    "a": "systems",
+    "traducidoPalabra": "sistemas"
+  },
+  {
+    "a": "tasked",
+    "traducidoPalabra": "Encargado"
+  },
+  {
+    "a": "transform",
+    "traducidoPalabra": "transformar"
+  },
+  {
+    "a": "various",
+    "traducidoPalabra": "varios"
+  },
+  {
+    "a": "well",
+    "traducidoPalabra": "Bueno"
+  },
+  {
+    "a": "who",
+    "traducidoPalabra": "OMS"
+  },
+  {
+    "a": "Who",
+    "traducidoPalabra": "OMS"
+  },
+  {
+    "a": "who've",
+    "traducidoPalabra": "Quien tiene"
+  },
+  {
+    "a": "working",
+    "traducidoPalabra": "laboral"
+  },
+  {
+    "a": "years",
+    "traducidoPalabra": "años"
+  },
+  {
+    "a": "you'll",
+    "traducidoPalabra": "Tú lo harás"
+  },
+  {
+    "a": "About",
+    "traducidoPalabra": "Acerca de"
+  },
+  {
+    "a": "addition",
+    "traducidoPalabra": "suma"
+  },
+  {
+    "a": "believes",
+    "traducidoPalabra": "cree"
+  },
+  {
+    "a": "challenges",
+    "traducidoPalabra": "desafíos"
+  },
+  {
+    "a": "colleagues",
+    "traducidoPalabra": "colegas"
+  },
+  {
+    "a": "customer's",
+    "traducidoPalabra": "clientes"
+  },
+  {
+    "a": "developers'",
+    "traducidoPalabra": "desarrolladores"
+  },
+  {
+    "a": "do",
+    "traducidoPalabra": "hacer"
+  },
+  {
+    "a": "enjoying",
+    "traducidoPalabra": "disfrutando"
+  },
+  {
+    "a": "enjoys",
+    "traducidoPalabra": "disfruta"
+  },
+  {
+    "a": "Eric",
+    "traducidoPalabra": "Eric"
+  },
+  {
+    "a": "every",
+    "traducidoPalabra": "cada"
+  },
+  {
+    "a": "exciting",
+    "traducidoPalabra": "emocionante"
+  },
+  {
+    "a": "family",
+    "traducidoPalabra": "familia"
+  },
+  {
+    "a": "few",
+    "traducidoPalabra": "pocos"
+  },
+  {
+    "a": "friends",
+    "traducidoPalabra": "amigos"
+  },
+  {
+    "a": "he",
+    "traducidoPalabra": "él"
+  },
+  {
+    "a": "He",
+    "traducidoPalabra": "Él"
+  },
+  {
+    "a": "He's",
+    "traducidoPalabra": "Él es"
+  },
+  {
+    "a": "him",
+    "traducidoPalabra": "a él"
+  },
+  {
+    "a": "his",
+    "traducidoPalabra": "su"
+  },
+  {
+    "a": "job",
+    "traducidoPalabra": "trabajo"
+  },
+  {
+    "a": "life",
+    "traducidoPalabra": "vida"
+  },
+  {
+    "a": "likes",
+    "traducidoPalabra": "gustos"
+  },
+  {
+    "a": "lives",
+    "traducidoPalabra": "vidas"
+  },
+  {
+    "a": "looks",
+    "traducidoPalabra": "aspecto"
+  },
+  {
+    "a": "many",
+    "traducidoPalabra": "muchos"
+  },
+  {
+    "a": "moment",
+    "traducidoPalabra": "momento"
+  },
+  {
+    "a": "passionate",
+    "traducidoPalabra": "apasionado"
+  },
+  {
+    "a": "Pirard",
+    "traducidoPalabra": "Pirard"
+  },
+  {
+    "a": "possible",
+    "traducidoPalabra": "posible"
+  },
+  {
+    "a": "problems",
+    "traducidoPalabra": "problemas"
+  },
+  {
+    "a": "projects",
+    "traducidoPalabra": "Proyectos"
+  },
+  {
+    "a": "quickly",
+    "traducidoPalabra": "rápidamente"
+  },
+  {
+    "a": "reviewer",
+    "traducidoPalabra": "crítico"
+  },
+  {
+    "a": "solve",
+    "traducidoPalabra": "resolver"
+  },
+  {
+    "a": "spend",
+    "traducidoPalabra": "gastar"
+  },
+  {
+    "a": "sports",
+    "traducidoPalabra": "deportes"
+  },
+  {
+    "a": "technology",
+    "traducidoPalabra": "tecnología"
+  },
+  {
+    "a": "There",
+    "traducidoPalabra": "Allá"
+  },
+  {
+    "a": "time",
+    "traducidoPalabra": "tiempo"
+  },
+  {
+    "a": "traveling",
+    "traducidoPalabra": "de viaje"
+  }
+];
+
+        // Elementos del DOM
+        const englishText = document.getElementById('englishText');
+        const spanishText = document.getElementById('spanishText');
+        const translateToSpanish = document.getElementById('translateToSpanish');
+        const translateToEnglish = document.getElementById('translateToEnglish');
+        const speakEnglish = document.getElementById('speakEnglish');
+        const speakSpanish = document.getElementById('speakSpanish');
+
+        // Función para traducir texto a español
+        translateToSpanish.addEventListener('click', () => {
+            const words = englishText.value.toLowerCase().split(' ');
+            const translatedWords = words.map(word => {
+                const match = dictionary.find(entry => entry.a === word);
+                return match ? match.traducidoPalabra : word;
+            });
+            spanishText.value = translatedWords.join(' ');
+        });
+
+        // Función para traducir texto a inglés
+        translateToEnglish.addEventListener('click', () => {
+            const words = spanishText.value.toLowerCase().split(' ');
+            const translatedWords = words.map(word => {
+                const match = dictionary.find(entry => entry.traducidoPalabra === word);
+                return match ? match.a : word;
+            });
+            englishText.value = translatedWords.join(' ');
+        });
+
+        // Función para hablar en inglés
+        speakEnglish.addEventListener('click', () => {
+            const utterance = new SpeechSynthesisUtterance(englishText.value);
+            utterance.lang = 'en-US';
+            speechSynthesis.speak(utterance);
+        });
+
+        // Función para hablar en español
+        speakSpanish.addEventListener('click', () => {
+            const utterance = new SpeechSynthesisUtterance(spanishText.value);
+            utterance.lang = 'es-ES';
+            speechSynthesis.speak(utterance);
+        });
+    </script>
+</body>
+</html>
